@@ -98,6 +98,45 @@ impl Gui {
     }
 
     fn on_pressed_image(&self, image: ImageInfo) {
-        println!("Mounting with g_mass_storage {}", image.path);
+        let mut arguments = vec![format!("file={}", &image.path)];
+
+        if image.as_cdrom.unwrap_or(false) {
+            arguments.push(String::from("cdrom=y"));
+        }
+
+        arguments.push(format!(
+            "ro={}",
+            if image.read_only.unwrap_or(false) {
+                "1"
+            } else {
+                "0"
+            }
+        ));
+
+        if let Ok(execution_script) = std::env::var("MODPROBE_SCRIPT") {
+            if let Ok(output) = std::process::Command::new(&execution_script)
+                .args(&arguments)
+                .output()
+            {
+                if output.status.success() {
+                    println!("Mounted image");
+                } else {
+                    eprintln!(
+                        "Could not mount image: \n\nError:\n {}\n\nOutput: {}",
+                        String::from_utf8(output.stderr)
+                            .unwrap_or_else(|_| String::from("Binary Output")),
+                        String::from_utf8(output.stdout)
+                            .unwrap_or_else(|_| String::from("Binary Output"))
+                    );
+                }
+            } else {
+                eprintln!(
+                    "Could not run execution command: {} {:?}",
+                    &execution_script, &arguments
+                );
+            }
+        } else {
+            eprintln!("Missing MODPROBE_SCRIPT");
+        }
     }
 }
