@@ -1,0 +1,7 @@
+[target.arm-unknown-linux-gnueabihf]
+linker = "arm-linux-gnueabihf-gcc"
+ar = "arm-linux-gnueabihf-ar"
+rustflags = [
+    "-C",
+    "link-args=--sysroot=/opt/ARM/",
+]

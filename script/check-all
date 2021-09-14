@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+SCRIPT="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+PROJECT=$(dirname "${SCRIPT}/../")
+
+"${SCRIPT}/check"
+"${SCRIPT}/check-arm"

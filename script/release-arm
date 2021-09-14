@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SCRIPT="$(realpath "$(pwd)/${0}")";
+PROJECT="$(realpath "$(dirname "${SCRIPT}")/../")";
+
+set -o allexport;
+source "${PROJECT}/.env";
+set +o allexport;
+
+export PATH="${TOOLCHAIN}/bin:${PATH}";
+export PKG_CONFIG_ALLOW_CROSS="1";
+export PKG_CONFIG_SYSROOT_DIR="${ARM_SYSROOT}";
+export PKG_CONFIG_PATH="${ARM_SYSROOT}/usr/lib/pkgconfig/";
+
+cargo build --target=arm-unknown-linux-gnueabihf --release;
