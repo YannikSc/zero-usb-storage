@@ -1,0 +1,15 @@
+- name: Windows 10
+  path: /images/windows-21h1-10.iso
+  icon:
+    File: /images/icons/windows-10.png
+  as_cdrom: true
+- name: Arch Linux
+  path: /images/archlinux-20210901.iso
+  icon:
+    File: /images/icons/archlinux.png
+  as_cdrom: true
+- name: Additions
+  path: /images/additions.img
+  read_only: true
+  icon:
+    Resource: disk-harddrives
