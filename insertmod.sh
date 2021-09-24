@@ -10,8 +10,6 @@ done
 
 ## Load our g_mass_storage
 
-FILE="${1}";
-READ_ONLY="${2}";
-CDROM="${3}";
-
-modprobe g_mass_storage "${FILE}" "${CDROM}" "${READ_ONLY}";
+MODULE="${1}";
+ARGUMENTS="${@:2}"
+modprobe "${MODULE}" ${ARGUMENTS};
